@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import com.poker.models.Card;
 import com.poker.models.Hand;
-import com.poker.models.Rank;
 
 public class HandUtils {
 
@@ -173,28 +172,80 @@ public class HandUtils {
      * @return The rank of the hand.
      *
      */
-    public static Rank getHandRank(Hand hand) {
+    public static int getHandRank(Hand hand) {
         Map<Integer, Integer> occurenceValues = getOccurrence(hand);
         if (isConsecutive(hand) && isSameSuit(hand) && getHighCard(hand) == 14) {
-            return new Rank(9, "Royal Flush");
+            return 9;
         } else if (isConsecutive(hand) && isSameSuit(hand)) {
-            return new Rank(8, "Straight Flush");
+            return 8;
         } else if (hasOccurrence(occurenceValues, 4)) {
-            return new Rank(7, "Four of a Kind");
+            return 7;
         } else if (hasOccurrence(occurenceValues, 3) && hasOccurrence(occurenceValues, 2)) {
-            return new Rank(6, "Full House");
+            return 6;
         } else if (isSameSuit(hand)) {
-            return new Rank(5, "Flush");
+            return 5;
         } else if (isConsecutive(hand)) {
-            return new Rank(4, "Straight");
+            return 4;
         } else if (hasOccurrence(occurenceValues, 3)) {
-            return new Rank(3, "Three of a Kind");
+            return 3;
         } else if (getPair(occurenceValues) == 2) {
-            return new Rank(2, "Two Pairs");
+            return 2;
         } else if (getPair(occurenceValues) == 1) {
-            return new Rank(1, "One Pair");
+            return 1;
         } else
-            return new Rank(0, "High Card");
+            return 0;
     }
+
+
+    
+    /**
+     * Determines if player 1 wins based on the comparison of their hands.
+     *
+     * @param hand1 The hand of player 1.
+     * @param hand2 The hand of player 2.
+     * @return 1 if player 1 wins, 0 otherwise.
+     * 
+     */
+    public static int getPlayer1Wins(Hand hand1, Hand hand2) {
+        int rank1 = getHandRank(hand1);
+        int rank2 = getHandRank(hand2);
+
+        if (rank1 > rank2) {
+            // Player 1 wins with a higher rank
+            return 1;
+        } else if (rank1 == rank2) {
+            // If both players have the same rank
+            if (rank1 == 1) {
+                // Both players have one pair, compare their pair values
+                int pairValue1 = getPairValue(hand1);
+                int pairValue2 = getPairValue(hand2);
+
+                if (pairValue1 > pairValue2) {
+                    // Player 1 wins with a higher pair value
+                    return 1;
+                } else if (pairValue1 == pairValue2) {
+                    // If both players have the same pair value, compare their high cards
+                    int highCard1 = getHighCard(hand1);
+                    int highCard2 = getHighCard(hand2);
+
+                    if (highCard1 > highCard2) {
+                        // Player 1 wins with a higher high card
+                        return 1;
+                    }
+                }
+            } else {
+                // Both players have different ranks, compare their high cards
+                int highCard1 = getHighCard(hand1);
+                int highCard2 = getHighCard(hand2);
+
+                if (highCard1 > highCard2) {
+                    // Player 1 wins with a higher high card
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+
 
 }

@@ -32,6 +32,8 @@ public class LaunchGame
            try {
                String line;
                int n=0;
+               int nb=0;
+
                while ((line = reader.readLine()) != null) {
    
                    // split the line into two hands
@@ -47,8 +49,12 @@ public class LaunchGame
                    System.out.println("Hand of Player 2: "+hand2);
                    System.out.println("*************************");
                    n++;
+                   nb += HandUtils.getPlayer1Wins(hand1, hand2);
+
                }
-   
+      
+
+               System.out.println("Player 1 wins " + nb + " times");
    
            } catch (IOException e) {
                e.printStackTrace();
