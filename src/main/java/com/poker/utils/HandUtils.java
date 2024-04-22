@@ -93,7 +93,8 @@ public class HandUtils {
      *
      * @param occurrenceValues The values of occurrences to check.
      * @param occurrence       The occurrence to search for.
-     * @return True if the occurrence values contain the specified occurrence, otherwise false
+     * @return True if the occurrence values contain the specified occurrence,
+     *         otherwise false
      * 
      */
     public static boolean hasOccurrence(Map<Integer, Integer> occurrenceValues, int occurrence) {
@@ -120,6 +121,47 @@ public class HandUtils {
             occurrenceValues.put(number, occurrenceValues.getOrDefault(number, 0) + 1);
         }
         return occurrenceValues;
+    }
+
+    /**
+     * Gets the value of the pair in the hand, if present.
+     *
+     * @param hand The hand to search for pairs.
+     * @return The value of the pair if found, or -1 if no pair is present.
+     *
+     */
+    public static int getPairValue(Hand hand) {
+        Map<Integer, Integer> frequencyMap = getOccurrence(hand);
+
+        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
+            if (entry.getValue() == 2) {
+                return entry.getKey(); // Return the rank of the pair
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Counts the number of pairs in the hand.
+     *
+     * @param occurrenceMap A map representing the frequency of card values in the
+     *                      hand.
+     *                      The keys are card values, and the values are the number
+     *                      of occurrences.
+     * 
+     * @return The number of pairs in the hand.
+     *
+     */
+    public static int getPair(Map<Integer, Integer> occurrenceMap) {
+        int pairCount = 0;
+        for (int occ : occurrenceMap.values()) {
+            if (occ == 2) {
+                pairCount++;
+            }
+        }
+
+        return pairCount;
     }
 
 }

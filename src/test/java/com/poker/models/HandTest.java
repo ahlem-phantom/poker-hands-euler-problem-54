@@ -38,4 +38,5 @@ public class HandTest {
         // Test toString method
         assertEquals("[(2, 0), (3, 0), (4, 0), (5, 0), (6, 0)]", hand.toString(), "toString() should return the hand's representation");
     }
+    
 }

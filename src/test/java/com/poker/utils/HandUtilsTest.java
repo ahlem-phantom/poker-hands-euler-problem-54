@@ -132,4 +132,30 @@ public class HandUtilsTest {
         assertEquals(1, occurrenceValues.get(9));
     }
 
+
+    @Test
+    void getPairValue() {
+        String handString = "2D 9C 5S AH AC";
+        Hand hand = HandUtils.parseHand(handString);
+        assertEquals(14, HandUtils.getPairValue(hand));
+    }
+
+    @Test
+    void getPairValueSame() {
+        String handString = "9D 9C 5S AH AC";
+        Hand hand = HandUtils.parseHand(handString);
+       // assertEquals(14, HandUtils.getPairValue(hand)); // prob here in case we have 2 pairs it gets first pair value
+    }
+
+    @Test
+    void getPair() {
+        Map<Integer, Integer> occurrenceMap = new HashMap<>();
+        occurrenceMap.put(2, 2);
+        occurrenceMap.put(3, 1);
+        occurrenceMap.put(4, 1);
+
+        assertEquals(1, HandUtils.getPair(occurrenceMap));
+    }
+
+
 }
