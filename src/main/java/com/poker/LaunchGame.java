@@ -10,10 +10,10 @@ package com.poker;
  * 
  * 
  * Project Euler problem 54: https://projecteuler.net/problem=54
- * GitHub repository: https://github.com/ahlem-phantom/poker-hands-54_euler
+ * GitHub repository: https://github.com/ahlem-phantom/poker-hands-euler-problem-54
  * 
 */
-public class App 
+public class LaunchGame 
 {
     public static void main( String[] args )
     {
