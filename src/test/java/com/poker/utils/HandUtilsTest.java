@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import org.junit.jupiter.api.Test;
+import java.util.HashMap;
+import java.util.Map;
 import com.poker.models.Card;
 import com.poker.models.Hand;
 
@@ -91,6 +93,43 @@ public class HandUtilsTest {
         String handString3 = "8H 7C 9S TC 6C";
         Hand hand3 = HandUtils.parseHand(handString3);
         assertTrue(HandUtils.isConsecutive(hand3));
+    }
+
+
+
+    @Test
+    void getHighCardTest() {
+        String handString1 = "5H 5C 6S 7S KD";
+        Hand hand1 = HandUtils.parseHand(handString1);
+        assertEquals(13, HandUtils.getHighCard(hand1));
+
+        String handString2 = "2C 5C 7D 8S QH";
+        Hand hand2 = HandUtils.parseHand(handString2);
+        assertEquals(12, HandUtils.getHighCard(hand2));
+    }
+
+    @Test
+    void hasOccurrenceTest() {
+        Map<Integer, Integer> occurrenceValues = new HashMap<>();
+        occurrenceValues.put(2, 2);
+        occurrenceValues.put(3, 1);
+        occurrenceValues.put(4, 1);
+
+        assertTrue(HandUtils.hasOccurrence(occurrenceValues, 2));
+        assertFalse(HandUtils.hasOccurrence(occurrenceValues, 5));
+    }
+
+    @Test
+    void getOccurrenceTest() {
+        String handString = "2D 9C AS AH AC";
+        Hand hand = HandUtils.parseHand(handString);
+        Map<Integer, Integer> occurrenceValues = HandUtils.getOccurrence(hand);
+
+        System.out.println("Occurrence values: " + occurrenceValues);
+
+        assertEquals(3, occurrenceValues.get(14));
+        assertEquals(1, occurrenceValues.get(2));
+        assertEquals(1, occurrenceValues.get(9));
     }
 
 }

@@ -3,8 +3,9 @@ package com.poker.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import com.poker.models.Card;
 import com.poker.models.Hand;
 
@@ -75,6 +76,50 @@ public class HandUtils {
         return true;
     }
 
+    /**
+     * Gets the highest card value in the hand.
+     *
+     * @param hand The hand to analyze.
+     * @return The value of the highest card in the hand.
+     */
+    public static int getHighCard(Hand hand) {
+        ArrayList<Card> hnd = hand.getCards();
+        Collections.sort(hnd, Comparator.comparingInt(Card::getNumber));
+        return hnd.get(hnd.size() - 1).getNumber();
+    }
 
+    /**
+     * Checks if the given occurrence values contain a specific occurrence.
+     *
+     * @param occurrenceValues The values of occurrences to check.
+     * @param occurrence       The occurrence to search for.
+     * @return True if the occurrence values contain the specified occurrence, otherwise false
+     * 
+     */
+    public static boolean hasOccurrence(Map<Integer, Integer> occurrenceValues, int occurrence) {
+        for (int o : occurrenceValues.values()) {
+            if (o == occurrence) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Calculates the occurrence of each card rank in the hand.
+     *
+     * @param hand The hand to analyze.
+     * @return A map containing the occurrence count of each card rank in the hand.
+     *
+     */
+    public static Map<Integer, Integer> getOccurrence(Hand hand) {
+        Map<Integer, Integer> occurrenceValues = new HashMap<>();
+
+        for (Card card : hand.getCards()) {
+            int number = card.getNumber();
+            occurrenceValues.put(number, occurrenceValues.getOrDefault(number, 0) + 1);
+        }
+        return occurrenceValues;
+    }
 
 }
