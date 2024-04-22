@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import com.poker.models.Card;
 import com.poker.models.Hand;
+import com.poker.models.Rank;
 
 public class HandUtils {
 
@@ -162,6 +163,38 @@ public class HandUtils {
         }
 
         return pairCount;
+    }
+
+    /**
+     *
+     * Determines the rank of the hand in a poker game.
+     *
+     * @param hand The hand to evaluate.
+     * @return The rank of the hand.
+     *
+     */
+    public static Rank getHandRank(Hand hand) {
+        Map<Integer, Integer> occurenceValues = getOccurrence(hand);
+        if (isConsecutive(hand) && isSameSuit(hand) && getHighCard(hand) == 14) {
+            return new Rank(9, "Royal Flush");
+        } else if (isConsecutive(hand) && isSameSuit(hand)) {
+            return new Rank(8, "Straight Flush");
+        } else if (hasOccurrence(occurenceValues, 4)) {
+            return new Rank(7, "Four of a Kind");
+        } else if (hasOccurrence(occurenceValues, 3) && hasOccurrence(occurenceValues, 2)) {
+            return new Rank(6, "Full House");
+        } else if (isSameSuit(hand)) {
+            return new Rank(5, "Flush");
+        } else if (isConsecutive(hand)) {
+            return new Rank(4, "Straight");
+        } else if (hasOccurrence(occurenceValues, 3)) {
+            return new Rank(3, "Three of a Kind");
+        } else if (getPair(occurenceValues) == 2) {
+            return new Rank(2, "Two Pairs");
+        } else if (getPair(occurenceValues) == 1) {
+            return new Rank(1, "One Pair");
+        } else
+            return new Rank(0, "High Card");
     }
 
 }

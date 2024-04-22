@@ -158,4 +158,16 @@ public class HandUtilsTest {
     }
 
 
+    @Test
+    void getHandRank() {
+        String handString1 = "5H 5C 6S 7S KD";
+        Hand hand1 = HandUtils.parseHand(handString1);
+        assertEquals("One Pair", HandUtils.getHandRank(hand1).getRank_name());
+
+        String handString2 = "2C 5C 7D 8S QH";
+        Hand hand2 = HandUtils.parseHand(handString2);
+        assertEquals("High Card", HandUtils.getHandRank(hand2).getRank_name());
+    }
+
+
 }
