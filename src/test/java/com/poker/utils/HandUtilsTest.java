@@ -1,14 +1,14 @@
 package com.poker.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
-
 import com.poker.models.Card;
 import com.poker.models.Hand;
 
@@ -37,7 +37,7 @@ public class HandUtilsTest {
         System.out.println("Actual cards: " + hand.getCards());
         System.out.println("Expected cards: " + cards);
 
-       // assertEquals(cards, hand.getCards()); // error here
+        assertEquals(cards, hand.getCards()); 
     }
 
     @Test
@@ -63,5 +63,34 @@ public class HandUtilsTest {
     }
 
 
+    @Test
+    void isSameSuit() {
+        String handString1 = "2C 3S 8S 8D TD";
+        Hand hand1 = HandUtils.parseHand(handString1);
+        assertFalse(HandUtils.isSameSuit(hand1));
+
+        String handString2 = "5S 8S 9S JS AS";
+        Hand hand2 = HandUtils.parseHand(handString2);
+        assertTrue(HandUtils.isSameSuit(hand2));
+
+        String handString3 = "8C 7C 9S TC 6C";
+        Hand hand3 = HandUtils.parseHand(handString3);
+        assertFalse(HandUtils.isSameSuit(hand3));
+    }
+
+    @Test
+    void isConsecutive() {
+        String handString1 = "5D 8C 9S JS AC";
+        Hand hand1 = HandUtils.parseHand(handString1);
+        assertFalse(HandUtils.isConsecutive(hand1));
+
+        String handString2 = "2C 3C 4D 5S 6H";
+        Hand hand2 = HandUtils.parseHand(handString2);
+        assertTrue(HandUtils.isConsecutive(hand2));
+
+        String handString3 = "8H 7C 9S TC 6C";
+        Hand hand3 = HandUtils.parseHand(handString3);
+        assertTrue(HandUtils.isConsecutive(hand3));
+    }
 
 }
