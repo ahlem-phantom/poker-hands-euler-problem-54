@@ -161,53 +161,38 @@ public class HandUtils {
             return 0;
     }
 
+  
     /**
-     * Determines if player 1 wins based on the comparison of their hands.
+     * Determines the highest non-pair card value in a hand.
      *
-     * @param hand1 The hand of player 1.
-     * @param hand2 The hand of player 2.
-     * @return 1 if player 1 wins, 0 otherwise.
-     * 
+     * @param hand The hand to analyze.
+     * @return The value of the highest non-pair card, otherwise -1 d
+     * @apiNote "3S 3C 3S 9C 1H" ==> 9 // if 2x 2of a kind or one of a kind + three
+     *          of a kind
      */
-    public static int getPlayer1Wins(Hand hand1, Hand hand2) {
-        int rank1 = getHandRank(hand1);
-        int rank2 = getHandRank(hand2);
+    public static int getHighestNonPairCard(Hand hand) {
+        return hand.getCards().stream()
+                .collect(Collectors.groupingBy(Card::getNumber, Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .max(Integer::compareTo)
+                .orElse(-1);
+    }
 
-        if (rank1 > rank2) {
-            // Player 1 wins with a higher rank
-            return 1;
-        } else if (rank1 == rank2) {
-            // If both players have the same rank
-            if (rank1 == 1) {
-                // Both players have one pair, compare their pair values
-                int pairValue1 = getPairValue(hand1);
-                int pairValue2 = getPairValue(hand2);
 
-                if (pairValue1 > pairValue2) {
-                    // Player 1 wins with a higher pair value
-                    return 1;
-                } else if (pairValue1 == pairValue2) {
-                    // If both players have the same pair value, compare their high cards
-                    int highCard1 = getHighCard(hand1);
-                    int highCard2 = getHighCard(hand2);
-
-                    if (highCard1 > highCard2) {
-                        // Player 1 wins with a higher high card
-                        return 1;
-                    }
-                }
-            } else {
-                // Both players have different ranks, compare their high cards
-                int highCard1 = getHighCard(hand1);
-                int highCard2 = getHighCard(hand2);
-
-                if (highCard1 > highCard2) {
-                    // Player 1 wins with a higher high card
-                    return 1;
-                }
-            }
-        }
-        return 0;
+        /**
+     * Gets the value of the triplet in a hand if it exists.
+     *
+     * @param hand The hand to analyze.
+     * @return The value of the triplet if found, otherwise -1.
+     * @apiNote "3C 3D 3S 9S 9D" ==> returns 3 "4D 6S 9H QH QC" ==> returns -1
+     */
+    public static int getThreeOfAKindValue(Hand hand) {
+        return countValuesOccurrences(hand).entrySet().stream()
+                .filter(entry -> entry.getValue() == 3)
+                .map(Map.Entry::getKey)
+                .findFirst().orElse(-1);
     }
 
 }
