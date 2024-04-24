@@ -1,16 +1,16 @@
 package com.poker.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Hand {
 
-    private ArrayList<Card> card;
+    private List<Card> card;
 
-    public Hand(ArrayList<Card> card) {
-        this.card = card;
+    public Hand(List<Card> hand) {
+        this.card = hand;
     }
 
-    public ArrayList<Card> getCards() {
+    public List<Card> getCards() {
         return card;
     }
 

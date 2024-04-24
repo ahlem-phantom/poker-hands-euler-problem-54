@@ -108,22 +108,12 @@ public class HandUtilsTest {
         assertEquals(12, HandUtils.getHighCard(hand2));
     }
 
+ 
     @Test
-    void hasOccurrenceTest() {
-        Map<Integer, Integer> occurrenceValues = new HashMap<>();
-        occurrenceValues.put(2, 2);
-        occurrenceValues.put(3, 1);
-        occurrenceValues.put(4, 1);
-
-        assertTrue(HandUtils.hasOccurrence(occurrenceValues, 2));
-        assertFalse(HandUtils.hasOccurrence(occurrenceValues, 5));
-    }
-
-    @Test
-    void getOccurrenceTest() {
+    void countValuesOccurrencesTest() {
         String handString = "2D 9C AS AH AC";
         Hand hand = HandUtils.parseHand(handString);
-        Map<Integer, Integer> occurrenceValues = HandUtils.getOccurrence(hand);
+        Map<Integer, Integer> occurrenceValues = HandUtils.countValuesOccurrences(hand);
 
         System.out.println("Occurrence values: " + occurrenceValues);
 
@@ -141,25 +131,25 @@ public class HandUtilsTest {
     }
 
     @Test
-    void getPairValueSame() {
+    void getPairValueSameTest() {
         String handString = "9D 9C 5S AH AC";
         Hand hand = HandUtils.parseHand(handString);
-       // assertEquals(14, HandUtils.getPairValue(hand)); // prob here in case we have 2 pairs it gets first pair value
+        assertEquals(14, HandUtils.getPairValue(hand)); // prob here in case we have 2 pairs it gets first pair value
     }
 
     @Test
-    void getPair() {
+    void getNumberOfPairsTest() {
         Map<Integer, Integer> occurrenceMap = new HashMap<>();
         occurrenceMap.put(2, 2);
         occurrenceMap.put(3, 1);
         occurrenceMap.put(4, 1);
 
-        assertEquals(1, HandUtils.getPair(occurrenceMap));
+        assertEquals(1, HandUtils.getNumberOfPairs(occurrenceMap));
     }
 
 
     @Test
-    void getHandRank() {
+    void getHandRankTest() {
         String handString1 = "5H 5C 6S 7S KD";
         Hand hand1 = HandUtils.parseHand(handString1);
         assertEquals(1, HandUtils.getHandRank(hand1));

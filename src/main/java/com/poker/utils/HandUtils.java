@@ -1,11 +1,15 @@
 package com.poker.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import com.poker.models.Card;
 import com.poker.models.Hand;
 
@@ -23,18 +27,12 @@ public class HandUtils {
             return null;
         }
 
-        ArrayList<Card> hand = new ArrayList<>();
-        String[] cardStrings = handString.split(" ");
-        for (String cardString : cardStrings) {
-            Card card = CardUtils.parseCard(cardString);
-            if (card == null) {
-                System.err.println("Error: Invalid card string - " + cardString);
-                return null; // Invalid card string, return null
-            }
-            hand.add(card);
-        }
+        List<Card> hand = Arrays.stream(handString.split(" "))
+                .map(CardUtils::parseCard)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
 
-        return new Hand(hand);
+        return hand.size() == handString.split(" ").length ? new Hand(hand) : null;
     }
 
     /**
@@ -44,17 +42,10 @@ public class HandUtils {
      * @return True if all cards have the same suit, false otherwise.
      */
     public static boolean isSameSuit(Hand hand) {
-        if (hand.getCards().size() < 2) {
-            return true;
-        }
-
-        int firstSuit = hand.getCards().get(0).getSuit();
-        for (Card card : hand.getCards()) {
-            if (card.getSuit() != firstSuit) {
-                return false;
-            }
-        }
-        return true;
+        return hand.getCards().stream()
+                .map(Card::getSuit)
+                .distinct()
+                .count() == 1;
     }
 
     /**
@@ -65,15 +56,10 @@ public class HandUtils {
      */
     public static boolean isConsecutive(Hand hand) {
         List<Card> cards = new ArrayList<>(hand.getCards());
-        Collections.sort(cards, Comparator.comparingInt(Card::getNumber));
+        cards.sort(Comparator.comparingInt(Card::getNumber));
 
-        for (int i = 1; i < cards.size(); i++) {
-            if (cards.get(i).getNumber() != cards.get(i - 1).getNumber() + 1) {
-                return false;
-            }
-        }
-
-        return true;
+        return IntStream.range(1, cards.size())
+                .allMatch(i -> cards.get(i).getNumber() == cards.get(i - 1).getNumber() + 1);
     }
 
     /**
@@ -83,45 +69,24 @@ public class HandUtils {
      * @return The value of the highest card in the hand.
      */
     public static int getHighCard(Hand hand) {
-        ArrayList<Card> hnd = hand.getCards();
-        Collections.sort(hnd, Comparator.comparingInt(Card::getNumber));
-        return hnd.get(hnd.size() - 1).getNumber();
+        return hand.getCards().stream()
+                .mapToInt(Card::getNumber)
+                .max()
+                .orElse(0);
     }
 
-    /**
-     * Checks if the given occurrence values contain a specific occurrence.
-     *
-     * @param occurrenceValues The values of occurrences to check.
-     * @param occurrence       The occurrence to search for.
-     * @return True if the occurrence values contain the specified occurrence,
-     *         otherwise false
-     * 
-     */
-    public static boolean hasOccurrence(Map<Integer, Integer> occurrenceValues, int occurrence) {
-        for (int o : occurrenceValues.values()) {
-            if (o == occurrence) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
+  /**
      * Calculates the occurrence of each card rank in the hand.
      *
      * @param hand The hand to analyze.
      * @return A map containing the occurrence count of each card rank in the hand.
-     *
+     * @apiNote "3S 3C 3S 9H 9H" => {3=3, 9=2}
      */
-    public static Map<Integer, Integer> getOccurrence(Hand hand) {
-        Map<Integer, Integer> occurrenceValues = new HashMap<>();
-
-        for (Card card : hand.getCards()) {
-            int number = card.getNumber();
-            occurrenceValues.put(number, occurrenceValues.getOrDefault(number, 0) + 1);
-        }
-        return occurrenceValues;
+    public static Map<Integer, Integer> countValuesOccurrences(Hand hand) {
+        return hand.getCards().stream()
+                .collect(Collectors.groupingBy(Card::getNumber, Collectors.summingInt(e -> 1)));
     }
+
 
     /**
      * Gets the value of the pair in the hand, if present.
@@ -131,39 +96,39 @@ public class HandUtils {
      *
      */
     public static int getPairValue(Hand hand) {
-        Map<Integer, Integer> frequencyMap = getOccurrence(hand);
+        Map<Integer, Integer> occurrenceValues = countValuesOccurrences(hand);
+        List<Integer> pairValues = occurrenceValues.entrySet().stream()
+                .filter(entry -> entry.getValue() == 2)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
 
-        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
-            if (entry.getValue() == 2) {
-                return entry.getKey(); // Return the rank of the pair
-            }
+        if (pairValues.size() == 2) {
+            return Collections.max(pairValues);
+        } else if (pairValues.size() == 1) {
+            return pairValues.get(0);
+        } else {
+            return -1;
         }
-
-        return -1;
     }
-
-    /**
+ /**
      * Counts the number of pairs in the hand.
      *
-     * @param occurrenceMap A map representing the frequency of card values in the
-     *                      hand.
-     *                      The keys are card values, and the values are the number
-     *                      of occurrences.
+     * @param occurrenceValues A map representing the frequency of card values in
+     *                         the hand.
+     *                         The keys are card values, and the values are the
+     *                         number of occurrences.
      * 
-     * @return The number of pairs in the hand.
-     *
+     * @return The number of pairs in the hand 1 for OnePair, 2 for TwoPairs
+     *         otherwise 0
+     * @apiNote "3C 3D 3S 9S 9D" ==> 1 (9S 9D) "3C 3D 5S 9S 9D" ==> 2 (3C 3D and 9S
+     *          9D)
      */
-    public static int getPair(Map<Integer, Integer> occurrenceMap) {
-        int pairCount = 0;
-        for (int occ : occurrenceMap.values()) {
-            if (occ == 2) {
-                pairCount++;
-            }
-        }
-
-        return pairCount;
+    public static int getNumberOfPairs(Map<Integer, Integer> occurrenceValues) {
+        return (int) occurrenceValues.values().stream().filter(count -> count == 2).count();
     }
 
+
+   
     /**
      *
      * Determines the rank of the hand in a poker game.
@@ -173,31 +138,29 @@ public class HandUtils {
      *
      */
     public static int getHandRank(Hand hand) {
-        Map<Integer, Integer> occurenceValues = getOccurrence(hand);
-        if (isConsecutive(hand) && isSameSuit(hand) && getHighCard(hand) == 14) {
+        Map<Integer, Integer> occurrenceValues = countValuesOccurrences(hand);
+        if (isConsecutive(hand) && isSameSuit(hand) && getHighCard(hand) == 14)
             return 9;
-        } else if (isConsecutive(hand) && isSameSuit(hand)) {
+        else if (isConsecutive(hand) && isSameSuit(hand))
             return 8;
-        } else if (hasOccurrence(occurenceValues, 4)) {
+        else if (occurrenceValues.containsValue(4))
             return 7;
-        } else if (hasOccurrence(occurenceValues, 3) && hasOccurrence(occurenceValues, 2)) {
+        else if (occurrenceValues.containsValue(3) && occurrenceValues.containsValue(2))
             return 6;
-        } else if (isSameSuit(hand)) {
+        else if (isSameSuit(hand))
             return 5;
-        } else if (isConsecutive(hand)) {
+        else if (isConsecutive(hand))
             return 4;
-        } else if (hasOccurrence(occurenceValues, 3)) {
+        else if (occurrenceValues.containsValue(3))
             return 3;
-        } else if (getPair(occurenceValues) == 2) {
+        else if (getNumberOfPairs(occurrenceValues) == 2)
             return 2;
-        } else if (getPair(occurenceValues) == 1) {
+        else if (getNumberOfPairs(occurrenceValues) == 1)
             return 1;
-        } else
+        else
             return 0;
     }
 
-
-    
     /**
      * Determines if player 1 wins based on the comparison of their hands.
      *
@@ -246,6 +209,5 @@ public class HandUtils {
         }
         return 0;
     }
-
 
 }
