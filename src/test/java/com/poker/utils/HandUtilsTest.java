@@ -124,7 +124,7 @@ public class HandUtilsTest {
 
 
     @Test
-    void getPairValue() {
+    void getPairValueTest() {
         String handString = "2D 9C 5S AH AC";
         Hand hand = HandUtils.parseHand(handString);
         assertEquals(14, HandUtils.getPairValue(hand));
@@ -134,7 +134,7 @@ public class HandUtilsTest {
     void getPairValueSameTest() {
         String handString = "9D 9C 5S AH AC";
         Hand hand = HandUtils.parseHand(handString);
-        assertEquals(14, HandUtils.getPairValue(hand)); // prob here in case we have 2 pairs it gets first pair value
+        assertEquals(14, HandUtils.getPairValue(hand)); 
     }
 
     @Test
@@ -157,6 +157,55 @@ public class HandUtilsTest {
         String handString2 = "2C 5C 7D 8S QH";
         Hand hand2 = HandUtils.parseHand(handString2);
         assertEquals(0, HandUtils.getHandRank(hand2));
+    }
+
+
+
+
+    @Test
+    void testGetNumberOfTwoPairs() {
+        Map<Integer, Integer> occurrenceValues = new HashMap<>();
+        occurrenceValues.put(2, 2); // Three pairs of value 2
+        occurrenceValues.put(3, 1); // One triplet of value 3
+        occurrenceValues.put(5, 2); // Two pairs of value 5
+
+        assertEquals(2, HandUtils.getNumberOfPairs(occurrenceValues));
+    }
+
+
+    @Test
+    void testGetNumberOfOnePair() {
+        Map<Integer, Integer> occurrenceValues = new HashMap<>();
+        occurrenceValues.put(2, 2); // Three pairs of value 2
+        occurrenceValues.put(3, 3); // One triplet of value 3
+        occurrenceValues.put(5, 1); // Two pairs of value 5
+
+        assertEquals(1, HandUtils.getNumberOfPairs(occurrenceValues));
+    }
+
+    @Test
+    void testGetThreeOfAKindValue() {
+ 
+        String handString1 = "3C 3D 3S 9S 9D";
+        Hand hand1 = HandUtils.parseHand(handString1);
+        assertEquals(3, HandUtils.getThreeOfAKindValue(hand1));
+
+        String handString2 = "4D 6S 9H QH QC";
+        Hand hand2 = HandUtils.parseHand(handString2);
+        assertEquals(-1, HandUtils.getThreeOfAKindValue(hand2));
+    }
+
+    @Test
+    void testGetHighestNonPairCard() {
+        String handString1 = "TC QD KS AS AD";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        assertEquals(13, HandUtils.getHighestNonPairCard(hand1));
+
+        String handString2 = "4D 6S 9H QH QC";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(9, HandUtils.getHighestNonPairCard(hand2));
     }
 
 

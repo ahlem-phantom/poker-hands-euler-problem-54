@@ -6,9 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class HandServiceTest {
-  
 
-    // These are the provided examples in the project euler website 
     
     @Test
     void testProblemExample1() {
@@ -85,4 +83,113 @@ public class HandServiceTest {
     }
 
     
+    @Test
+    void testTieRoyalFlush() {
+        String handString1 = "AH KH QH JH TH";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "AH KH QH JH TH";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
+
+    @Test
+    void testTieStraightFlush() {
+        String handString1 = "9S 8S 7S 6S 5S";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "9S 8S 7S 6S 5S";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
+
+    @Test
+    void testTieFourOfAKind() {
+        String handString1 = "2H 2D 2C 2S 3H";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "2H 2D 2C 2S 3H";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
+
+    @Test
+    void testFullHouse() {
+        String handString1 = "KH KD KC 2H 2C";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "KD KC KH 3H 3C";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
+
+    @Test
+    void testTieFlush() {
+        String handString1 = "AH KH QH JH 9H";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "AD KD QD JD 9D";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
+
+    @Test
+    void testStraight() {
+        String handString1 = "6C 5H 4S 3D 2H";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "6S 5D 4C 3H 2S";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
+
+    @Test
+    void testThreeOfAKindTie() {
+        String handString1 = "2H 2D 2C 4D 7S";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "2C 2S 2D 4S 7C";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
+
+    @Test
+    void testTwoPairsTie() {
+        String handString1 = "2H 2D 4C 4D 7S";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "2C 2S 4D 4S 7C";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
+
+    @Test
+    void testOnePairTie() {
+        String handString1 = "2H 2D 4C 5D 7S";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "2C 2S 4D 5S 7C";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
+
+    @Test
+    void testHighCardTie() {
+        String handString1 = "2H 3D 4C 5D 7S";
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "2C 3H 4D 5S 7C";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
 }

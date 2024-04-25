@@ -23,7 +23,9 @@ public class HandService {
     /**
      * Determines the winner between two hands based on a specified card value
      * function.
-     *
+     * 
+     * Works for most of hand ranks (not all of them though)
+     * 
      * @param hand1             The hand of player 1.
      * @param hand2             The hand of player 2.
      * @param cardValueFunction The function to determine the card value.
