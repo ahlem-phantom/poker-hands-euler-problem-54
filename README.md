@@ -33,14 +33,14 @@ This project is my unique take on solving <a href="https://projecteuler.net/prob
 So basically we have a file (which can be found in the resources folder) containing **1000 lines == 1000 rounds**.
 <div align="center">
 <h1>
-<img src="https://github.com/ahlem-phantom/poker-hands-54_euler/assets/78981558/078427e3-f9e8-4c06-b97d-495e7d661e9b" width="300" height="500">
+<img src="https://github.com/ahlem-phantom/poker-hands-euler-problem-54/assets/78981558/3ddd45ac-fd7c-4aeb-9c91-d2d7c0d9039b" width="300" height="500">
 </h1>
 </div>
 
 Each round is composed of 10 cards that should be divided into 2 hands related to 2 players. Each player should have 5 cards.
 <div align="center">
 <h1>
-<img src="https://github.com/ahlem-phantom/poker-hands-54_euler/assets/78981558/ff9d1c5a-4acd-4953-b694-d24ac166b920" width="500" height="200">
+<img src="https://github.com/ahlem-phantom/poker-hands-euler-problem-54/assets/78981558/f97a7898-c7ad-42c6-b6e1-0060996e9160" width="500" height="200">
 </h1>
 </div>
 
