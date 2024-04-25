@@ -96,16 +96,16 @@ This hand includes:
 The goal of this task is to calculate the number of times that player 1 wins. The winner is determined based on **the strength of their hands**.
 | Hand Rank | Hand Name       | Definition / Example                                 | Consecutive      | Same Suit       |
 |-----------|-----------------|------------------------------------------------------|-----------------|-----------------|
-| 9         | Royal Flush     | Cards of Ten, Jack, Queen, King, Ace, in same suit | yes |yes |
+| 9         | Royal Flush     | Cards of Ten, Jack, Queen, King, Ace, in same suit    | yes |yes |
 | 8         | Straight Flush  | Cards of the same suit and consecutive ranks: J♠, T♠, 9♠, 8♠, 7♠ |yes |yes |
 | 7         | Four of a Kind  | Four cards of the same rank: 9♠, 9♦, 9♥, 9♠          |no |no |
 | 6         | Full House      | Three cards of the same rank, two of another: K♠, K♥, K♣, 9♥, 9♣ |no |no |
-| 5         | Flush           | Cards of the same suit but not a straight: A♥, K♥, Q♥, T♥, 2♥|no |yes |
-| 4         | Straight        | Cards of consecutive ranks but not a flush: 7♠, 6♦, 5♦, 4♥, 3♣ |yes |no |
-| 3         | Three of a Kind | Three cards of the same rank, others distinct: A♠, A♦, A♣, T♢, 4♢ |no |no |
+| 5         | Flush           | Cards of the same suit but not consecutive: A♥, K♥, Q♥, T♥, 2♥|no |yes |
+| 4         | Straight        | Cards of consecutive ranks but not in a same suit: 7♠, 6♦, 5♦, 4♥, 3♣ |yes |no |
+| 3         | Three of a Kind | Three cards of the same rank, others distinct: A♠, A♦, A♣, T♦, 4♦ |no |no |
 | 2         | Two Pair        | Two cards of the same rank and two of another: A♠, A♣, Q♣, Q♦, 4♣ |no |no |
-| 1         | One Pair            | Two cards of the same rank, others distinct: J♥, J♥, T♦, 4♠, 2♥ |no |no |
-| 0         | High Card       | Any kind of hand not mentioned above: highest value card: A♥, K♥, Q♦, J♠, 9♥ | - | - |
+| 1         | One Pair        | Two cards of the same rank, others distinct: J♥, J♠, T♦, 4♠, 2♥ |no |no |
+| 0         | High Card       | Any kind of hand not mentioned above: highest value card: A♥, K♥, Q♦, J♠, 9♥ => A in this case | - | - |
 
 *Tab.3:* Poker hand ranks.
 
