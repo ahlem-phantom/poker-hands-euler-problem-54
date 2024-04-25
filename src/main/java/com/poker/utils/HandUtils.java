@@ -75,7 +75,7 @@ public class HandUtils {
                 .orElse(0);
     }
 
-  /**
+    /**
      * Calculates the occurrence of each card rank in the hand.
      *
      * @param hand The hand to analyze.
@@ -86,7 +86,6 @@ public class HandUtils {
         return hand.getCards().stream()
                 .collect(Collectors.groupingBy(Card::getNumber, Collectors.summingInt(e -> 1)));
     }
-
 
     /**
      * Gets the value of the pair in the hand, if present.
@@ -110,7 +109,8 @@ public class HandUtils {
             return -1;
         }
     }
- /**
+
+    /**
      * Counts the number of pairs in the hand.
      *
      * @param occurrenceValues A map representing the frequency of card values in
@@ -120,15 +120,13 @@ public class HandUtils {
      * 
      * @return The number of pairs in the hand 1 for OnePair, 2 for TwoPairs
      *         otherwise 0
-     * @apiNote "3C 3D 3S 9S 9D" ==> 1 (9S 9D) "3C 3D 5S 9S 9D" ==> 2 (3C 3D and 9S
-     *          9D)
+     * @apiNote "3C 3D 3S 9S 9D" ==> 1 (one pair) (9S 9D)  // "3C 3D 5S 9S 9D" ==> 2(2 pairs) (3C 3D and 9S 9D)
+     * 
      */
     public static int getNumberOfPairs(Map<Integer, Integer> occurrenceValues) {
         return (int) occurrenceValues.values().stream().filter(count -> count == 2).count();
     }
 
-
-   
     /**
      *
      * Determines the rank of the hand in a poker game.
@@ -161,14 +159,13 @@ public class HandUtils {
             return 0;
     }
 
-  
     /**
      * Determines the highest non-pair card value in a hand.
      *
      * @param hand The hand to analyze.
-     * @return The value of the highest non-pair card, otherwise -1 d
-     * @apiNote "3S 3C 3S 9C 1H" ==> 9 // if 2x 2of a kind or one of a kind + three
-     *          of a kind
+     * @return The value of the highest non-pair card, otherwise -1.
+     * @apiNote "3S 3C 3S 9C 1H" ==> 9 
+     * 
      */
     public static int getHighestNonPairCard(Hand hand) {
         return hand.getCards().stream()
@@ -180,13 +177,12 @@ public class HandUtils {
                 .orElse(-1);
     }
 
-
-        /**
+    /**
      * Gets the value of the triplet in a hand if it exists.
      *
      * @param hand The hand to analyze.
      * @return The value of the triplet if found, otherwise -1.
-     * @apiNote "3C 3D 3S 9S 9D" ==> returns 3 "4D 6S 9H QH QC" ==> returns -1
+     * @apiNote "3C 3D 3S 9S 9D" ==> returns 3 //  "4D 6S 9H QH QC" ==> returns -1
      */
     public static int getThreeOfAKindValue(Hand hand) {
         return countValuesOccurrences(hand).entrySet().stream()

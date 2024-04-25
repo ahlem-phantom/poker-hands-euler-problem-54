@@ -8,11 +8,12 @@ import com.poker.utils.HandUtils;
 public class HandService {
 
     /**
-     * Determines the winner between two hands based on a specified comparison function.
+     * Determines the winner between two hands based on a specified comparison
+     * function.
      *
-     * @param hand1         The hand of player 1.
-     * @param hand2         The hand of player 2.
-     * @param comparison    The comparison function to determine the winner.
+     * @param hand1      The hand of player 1.
+     * @param hand2      The hand of player 2.
+     * @param comparison The comparison function to determine the winner.
      * @return 1 if player 1 wins, 0 otherwise.
      * 
      */
@@ -26,9 +27,9 @@ public class HandService {
      * 
      * Works for most of hand ranks (not all of them though)
      * 
-     * @param hand1             The hand of player 1.
-     * @param hand2             The hand of player 2.
-     * @param cardValueFunction The function to determine the card value.
+     * @param hand1     The hand of player 1.
+     * @param hand2     The hand of player 2.
+     * @param cardValue The function to determine the card value.
      * @return 1 if player 1 wins, 0 otherwise.
      */
     public static int compareCardValues(Hand hand1, Hand hand2, Function<Hand, Integer> cardValue) {
@@ -67,7 +68,7 @@ public class HandService {
      * @param hand2 The hand of player 2.
      * @return 1 if player 1 wins, 0 otherwise.
      */
-   /* */ public static int evaluateHands(Hand hand1, Hand hand2) {
+    public static int evaluateHands(Hand hand1, Hand hand2) {
         int rank1 = HandUtils.getHandRank(hand1);
         int rank2 = HandUtils.getHandRank(hand2);
 
@@ -79,7 +80,7 @@ public class HandService {
                 case 1: // One pair
                     return compareCardValues(hand1, hand2, HandUtils::getPairValue);
                 case 6: // Full house
-                    
+
                     return compareFullHouse(hand1, hand2);
                 default: // Other ranks
                     Comparator<Hand> comparator = Comparator.comparingInt(HandUtils::getHighestNonPairCard);

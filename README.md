@@ -30,14 +30,14 @@
 <!-- ABOUT THE PROJECT -->
 ##  About The Project
 This project is my unique take on solving <a href="https://projecteuler.net/problem=54">Problem #54 from Project Euler</a>. It is a Poker card game.  <br/>
-So basiacally we have a file (can be found at ressources folder) containing 1000 line == 1000 round.
+So basically we have a file (which can be found in the resources folder) containing **1000 lines == 1000 rounds**.
 <div align="center">
 <h1>
 <img src="https://github.com/ahlem-phantom/poker-hands-54_euler/assets/78981558/078427e3-f9e8-4c06-b97d-495e7d661e9b" width="300" height="500">
 </h1>
 </div>
 
-Each round is composed of 10 cards that should be divided to 2 hands related to 2 players. Each player should have 5 cards.
+Each round is composed of 10 cards that should be divided into 2 hands related to 2 players. Each player should have 5 cards.
 <div align="center">
 <h1>
 <img src="https://github.com/ahlem-phantom/poker-hands-54_euler/assets/78981558/ff9d1c5a-4acd-4953-b694-d24ac166b920" width="500" height="200">
@@ -96,12 +96,12 @@ This hand includes:
 The goal of this task is to calculate the number of times that player 1 wins. The winner is determined based on **the strength of their hands**.
 | Hand Rank | Hand Name       | Definition / Example                                 | Consecutive      | Same Suit       |
 |-----------|-----------------|------------------------------------------------------|-----------------|-----------------|
-| 9         | Royal Flush     | Cards of Ten, Jack, Queen, King, Ace, in same suit    | yes |yes |
+| 9         | Royal Flush     | Cards of Ten, Jack, Queen, King, Ace, in the same suit    | yes |yes |
 | 8         | Straight Flush  | Cards of the same suit and consecutive ranks: J♠, T♠, 9♠, 8♠, 7♠ |yes |yes |
 | 7         | Four of a Kind  | Four cards of the same rank: 9♠, 9♦, 9♥, 9♠          |no |no |
 | 6         | Full House      | Three cards of the same rank, two of another: K♠, K♥, K♣, 9♥, 9♣ |no |no |
 | 5         | Flush           | Cards of the same suit but not consecutive: A♥, K♥, Q♥, T♥, 2♥|no |yes |
-| 4         | Straight        | Cards of consecutive ranks but not in a same suit: 7♠, 6♦, 5♦, 4♥, 3♣ |yes |no |
+| 4         | Straight        | Cards of consecutive ranks but in the same suit: 7♠, 6♦, 5♦, 4♥, 3♣ |yes |no |
 | 3         | Three of a Kind | Three cards of the same rank, others distinct: A♠, A♦, A♣, T♦, 4♦ |no |no |
 | 2         | Two Pair        | Two cards of the same rank and two of another: A♠, A♣, Q♣, Q♦, 4♣ |no |no |
 | 1         | One Pair        | Two cards of the same rank, others distinct: J♥, J♠, T♦, 4♠, 2♥ |no |no |
@@ -110,8 +110,8 @@ The goal of this task is to calculate the number of times that player 1 wins. Th
 *Tab.3:* Poker hand ranks.
 
 ### How the solution works
-The solution employs an **object-oriented programming** approach to simulate a poker game and **determine the winner of each hand**. At the core of my design are two main classes: the ` Card ` class and the ` Hand ` class. The Card class encapsulates the properties of individual cards, such as suit and number, providing a blueprint for creating and managing card objects. On the other hand, the Hand class represents an list of cards, offering functionalities to add or remove cards, evaluate hand ranks, and compare hands for determining winners.  At a high level, the program parses input hands represented as strings, evaluates the rank of each hand, and determines the winner based on the ranks and card values. It employs various methods to analyze hands, such as checking for pairs, flushes, straights, and high cards. Moreover, this solution takes into account scenarios where ties occur (hands of equal strength). 
-The `getHandRank` method assesses the rank of each hand, allowing for comparisons to determine the winner.
+The solution employs an **object-oriented programming** approach to simulate a poker game and **determine the winner of each hand**. At the core of my design are two main classes: the `Card` class and the `Hand `class. The Card class encapsulates the properties of individual cards, such as suit and number, providing a blueprint for creating and managing card objects. On the other hand, the Hand class represents a list of cards, offering functionalities to add or remove cards, evaluate hand ranks, and compare hands to determine winners. At a high level, the program parses input hands represented as strings, evaluates the rank of each hand, and determines the winner based on the ranks and card values. It employs various methods to analyze hands, such as checking for pairs, flushes, straights, and high cards. Moreover, this solution takes into account scenarios where ties occur (hands of equal strength). 
+The `getHandRank` method assesses the rank of each hand, allowing for comparisons to determine the winner.
 
 <div align="center">
 <h1>
@@ -123,21 +123,19 @@ The `getHandRank` method assesses the rank of each hand, allowing for comparison
 ### Strengths and Weaknesses
 One aspect I appreciate about my solution is its clarity and organization. By dividing functionality into separate classes (such as Card and Hand), the solution becomes more modular and easier to understand. Here are the key aspects I focused on:
 - **Modular Design:** I structured the solution into separate utility methods for parsing, analyzing, and comparing hands. This modular approach makes the solution easier to maintain and understand.
-- **Use of Streams:** While I had only a theoretical understanding of Java Streams before, I found them incredibly valuable in certain methods for their ability to enhance readability and conciseness. They were extremly useful especially for tasks like counting occurrences and get highest cards value, etc improving code clarity.
-- **Error Handling:** I tired to implement error handling to ensure robustness by validating input and invalid scenarios. 
+- **Use of Streams:** While I had only a theoretical understanding of Java Streams before, I found them incredibly valuable in certain methods for their ability to enhance readability and conciseness. They were extremely useful, especially for tasks like counting occurrences and getting the highest card value, etc improving code clarity.
+- **Error Handling:** I tried to implement error handling to ensure robustness by validating input and invalid scenarios.
 
-However, one potential drawback of the solution is its **complexity in Hand Ranking:**. While I acknowledge the current complexity, I believe it could be further reduced by breaking down the logic into smaller, more focused methods. One alternative approach I considered, but didn't have time to implement, was assigning a numerical value to each hand type with additional values assigned based on factors such as the highest card in the hand. This would allow for direct comparison based on assigned values, potentially simplifying the comparison process.
-
-
+However, one potential drawback of the solution is its **complexity in Hand Ranking**. While I acknowledge the current complexity, I believe it could be further reduced by breaking down the logic into smaller, more focused methods. One alternative approach I considered, but didn't have time to implement, was assigning a numerical value to each hand type with additional values assigned based on factors such as the highest card in the hand. This would allow for direct comparison based on assigned values, potentially simplifying the comparison process.
 
 
 ### New technologies or approaches
-Initially, I struggled with understanding the game of poker as I wasn't familiar with card games.  However, I found the learning process to be enjoyable and interesting! I was fascinated by the logic involved in evaluating poker hands. The problem itself wasn't too difficult, but what mattered the most was how I structured the code to ensure simplicity, readability, and reduce complexity. Here are the things I employed:
+Initially, I struggled with understanding the game of poker as I wasn't familiar with card games. However, I found the learning process to be enjoyable and interesting! I was fascinated by the logic involved in evaluating poker hands. The problem itself wasn't too difficult, but what mattered the most was how I structured the code to ensure simplicity, and readability, and reduce complexity. Here are the things I employed:
 
 
-- **Java Streams:** this helped me for tasks like mapping, filtering, and collecting data introduced a more functional programming approach to certain parts of the solution.
-- **Unit Testing:** this helped to validate the functionality of various methods, ensuring that changes to the codebase maintain expected behavior.
-- **Code Analysis Tool**: I used it to detect and rectify coding issues, code smells, and potential vulnerabilities in my code. So, I utilized these tools to calculate the complexity of the code and address any areas of concern. Although I had intended to work with SonarLint for code analysis, I resorted to Codalyze tool due to limitations in installing extensions. Also I used Visual Studio Code as my primary IDE.
+- **Java Streams:** This helped me with tasks like mapping, filtering, and collecting data and introduced a more functional programming approach to certain parts of the solution.
+- **Unit Testing:** This helped to validate the functionality of various methods, ensuring that changes to the codebase maintain expected behavior.
+- **Code Analysis Tool**: I used it to detect and rectify coding issues, code smells, and potential vulnerabilities in my code. So, I utilized these tools to calculate the complexity of the code and address any areas of concern. Although I had intended to work with SonarLint for code analysis, I resorted to the Codalyze tool due to limitations in installing extensions. Also, I used Visual Studio Code as my primary IDE.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -167,12 +165,12 @@ Initially, I struggled with understanding the game of poker as I wasn't familiar
     |   |           |   |   
     |   |           |   |   
     |   |           |   ├── services/                        # Package for utility classes
-    |   |           |   |   └── HandService.java             # Utility class for hand comparision and evaluation
+    |   |           |   |   └── HandService.java             # Utility class for hand comparison and evaluation
     |   |           |   |   
     |   |           |   └── LaunchGame.java                  # Main class for running the application
     |   |           |   
     |   |           └── resources/
-    |   |                  └── 0054_poker.txt                # File that contains one-thousand random hands dealt to two players
+    |   |                  └── 0054_poker.txt                # File that contains one thousand random hands dealt to two players
     |   |    
     |   └── test                                             # Test source code containing automated tests (JUnit5)
     |       └── java/
@@ -200,7 +198,7 @@ Initially, I struggled with understanding the game of poker as I wasn't familiar
  - [x] Phase 1: Understanding the Poker Hands Problem
    - Problem Definition: Defined the problem of Euler #54 of the poker hands and its goals.
    - Poker Rules Review: I needed to understand the rules of poker, especially the ranking and comparison of poker hands.
-   - Algorithm Design: I developed an algorithm for evaluating poker hands( just handwriting of a high level).
+   - Algorithm Design: I developed an algorithm for evaluating poker hands (just handwriting of a high level).
  
  - [x] Phase 2: Building Basic Classes
    - Card and Hand Classes: Implemented the Card and Hand classes.
@@ -211,12 +209,12 @@ Initially, I struggled with understanding the game of poker as I wasn't familiar
    - Round Representation: Created a method to represent a round of poker using the Card and Hand objects (using parseCard and parseHand).
 
  - [x] Phase 4: Evaluating Poker Hands
-    - Utility functions: Created functions like isSameSuit, isConsecutive, getHandHighCard etc.
+    - Utility functions: Created functions like `isSameSuit`, `isConsecutive`, `getHandHighCard`, etc.
     - Hand Evaluation: Wrote down the logic to evaluate and rank poker hands according to the rules of poker.
 
  - [x]  Phase 5: Testing and Optimization
-   - Solution Testing: Continously tested all the elements thoroughly to ensure they worked as expected using JUnit5 tests.
-   - Optimization: Continously refined and optimized the code for efficiency and readability.
+   - Solution Testing: Continuously tested all the elements thoroughly to ensure they worked as expected using JUnit5 tests.
+   - Optimization: Continuously refined and optimized the code for efficiency and readability.
       
 ## Representing Poker Hands in Java
 
@@ -259,7 +257,7 @@ This class provides utility methods for parsing and interpreting card representa
 *Tab.6:* CardUtils class description
 
 ### The FileUtil Class
-This class offers method to obtain a BufferedReader object for reading resource files. The resources folder is located within the src/main/resources directory of your project structure. Files placed in this folder are accessible via this method:
+This class offers a method to obtain a BufferedReader object for reading resource files. The resources folder is located within the `src/main/resources` directory of your project structure. Files placed in this folder are accessible via this method:
 | Method Name                         |  Method Description                                                                                                                   |
 |-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | `getFileResource(String filePath)`	|Retrieves a BufferedReader object for reading a file located in the resources folder. The filePath argument specifies the path to the file relative to the resources directory. Throws IllegalArgumentException if the file is not found.|
@@ -267,7 +265,7 @@ This class offers method to obtain a BufferedReader object for reading resource 
 *Tab.7:* FileUtil class description
 
 ###  The HandUtil Class
-This class provides utility methods for parsing a hand string representation into a Hand object, evaluating hand properties like same suit, consecutive cards, highest card value, etc, determining the poker hand rank (Straight Flush, Four of a Kind, etc. and Identifying specific card combinations like triplets and pairs.
+This class provides utility methods for parsing a hand string representation into a Hand object, evaluating hand properties like a same suit, consecutive cards, highest card value, etc, and determining the poker hand rank (Straight Flush, Four of a Kind, etc). and Identifying specific card combinations like triplets and pairs.
 
 | Method Name                         |  Method Description                                                                                                                   |
 |-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|

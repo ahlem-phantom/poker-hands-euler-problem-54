@@ -27,13 +27,13 @@ public class LaunchGame {
 
     public static void main(String[] args) {
 
-        // Step 1 : Read file from resources folder using FileUtils
+        // Step 1: Read file from resources folder using FileUtils
         BufferedReader reader = FileUtils.getFileResource("0054_poker.txt");
 
         // Record start time
         long startTime = System.currentTimeMillis();
 
-        // Step 2 : Read the lines and split them to 2 hands
+        // Step 2: Read the lines and split them to 2 hands
         try {
             String line;
             int nb = 0;
@@ -46,9 +46,9 @@ public class LaunchGame {
 
                 // Parse cards
                 Hand hand1 = HandUtils.parseHand(hand1String);
-
                 Hand hand2 = HandUtils.parseHand(hand2String);
 
+                // Evaluate both hands and gets the winner 
                 nb += HandService.evaluateHands(hand1, hand2);
             }
 
@@ -58,7 +58,7 @@ public class LaunchGame {
             // Calculate runtime
             long runtime = endTime - startTime;
 
-            // Display of number of times player 1 wins --- 376
+            // Step 3: Display of number of times player 1 wins ==> It should be 376
             System.out.println("Player 1 wins: " + nb);
             // Display runtime
             System.out.println("Total runtime: " + runtime + " milliseconds");

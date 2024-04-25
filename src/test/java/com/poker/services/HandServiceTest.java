@@ -3,9 +3,101 @@ package com.poker.services;
 import com.poker.models.Hand;
 import com.poker.utils.HandUtils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Comparator;
+import java.util.function.Function;
+
 import org.junit.jupiter.api.Test;
 
 public class HandServiceTest {
+
+
+
+    @Test
+    void testCompareHands_Player1Wins() {
+        // player 1 has a royal flush (Ace-high straight flush)
+        String handString1 = "AH KH QH JH TH";
+        Hand hand1 = HandUtils.parseHand(handString1);
+        
+        // player 2 has a straight flush, but not a royal flush
+        String handString2 = "9D 8D 7D 6D 5D";
+        Hand hand2 = HandUtils.parseHand(handString2);
+        
+        // comparator for comparison based on hand ranks
+        Comparator<Hand> comparator = Comparator.comparingInt(HandUtils::getHandRank);
+        
+        // player 1 (royal flush) should win over Player 2 (straight flush)
+        int result = HandService.compareHands(hand1, hand2, comparator);
+        
+        assertEquals(1, result); 
+    }
+    
+
+    @Test
+    void testCompareHands_Player2Wins() {
+        // player 1 has a full house with 4s over 2s, while Player 2 has a full house with 5s over 3s
+        String handString1 = "2H 2D 2C 4D 4S" ;
+        Hand hand1 = HandUtils.parseHand(handString1);
+        String handString2 = "3H 3D 3C 5D 5S";
+        Hand hand2 = HandUtils.parseHand(handString2);
+        Comparator<Hand> comparator = Comparator.comparingInt(HandUtils::getThreeOfAKindValue)
+                .thenComparingInt(HandUtils::getPairValue);
+
+        int result = HandService.compareHands(hand1, hand2, comparator);
+
+        assertEquals(0, result);
+    }
+    
+
+    @Test
+    void testCompareCardValues_Player1Wins() {
+        String handString1 = "2H 2D 4C 4D 4S";
+        Hand hand1 = HandUtils.parseHand(handString1);
+        String handString2 = "3H 3D 5C 5D 5S";
+        Hand hand2 = HandUtils.parseHand(handString2);
+        Function<Hand, Integer> cardValue = HandUtils::getHighestNonPairCard;
+
+        int result = HandService.compareCardValues(hand1, hand2, cardValue);
+
+        assertEquals(0, result);
+    }
+
+    @Test
+    void testCompareCardValues_Player2Wins() {
+        String handString1 = "3H 4D AC 5D 5S";
+        Hand hand1 = HandUtils.parseHand(handString1);
+        String handString2 = "2H 6D QC 4D 4S";
+        Hand hand2 = HandUtils.parseHand(handString2);
+        Function<Hand, Integer> cardValue = HandUtils::getHighestNonPairCard;
+
+        int result = HandService.compareCardValues(hand1, hand2, cardValue);
+
+        assertEquals(1, result);
+    }
+
+
+    @Test
+    void testCompareFullHouse_Player1Wins() {
+        String handString1 = "KH KD KC 5D 5S";
+        Hand hand1 = HandUtils.parseHand(handString1);
+        String handString2 = "JH JD JC 4D 4S";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        int result = HandService.compareFullHouse(hand1, hand2);
+
+        assertEquals(1, result);
+    }
+
+    @Test
+    void testCompareFullHouse_Player2Wins() {
+        String handString1 = "2H 2D 2C 4D 4S";
+        Hand hand1 = HandUtils.parseHand(handString1);
+        String handString2 = "3H 3D 3C 5D 5S";
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        int result = HandService.compareFullHouse(hand1, hand2);
+
+        assertEquals(0, result);
+    }
 
     
     @Test
@@ -71,6 +163,21 @@ public class HandServiceTest {
         assertEquals(1, HandService.evaluateHands(hand1, hand2)); //passed
     }
 
+
+    @Test
+    void testSameRankDifferentSuits() {
+        // Test for hands with cards of the same rank but different suits
+        String handString1 = "2H 2D 2C 2S 3H"; // Four of a kind with different suits
+        Hand hand1 = HandUtils.parseHand(handString1);
+
+        String handString2 = "2H 2D 2C 2S 3S"; // Four of a kind with one suit
+        Hand hand2 = HandUtils.parseHand(handString2);
+
+        // Assuming hands with the same rank but different suits tie
+        assertEquals(0, HandService.evaluateHands(hand1, hand2));
+    }
+
+    
     @Test
     void getPlayer1Case6() {
         String handString1 = "TC JC QC KC AC";
