@@ -19,8 +19,9 @@
     <li>
       <a href="#project-roadmap">Project Implementation</a>
       <ul>
-        <li><a href="#project-overview">Project Structure</a></li>
-         <li><a href="#project-overview">Project Roadmap</a></li>
+        <li><a href="#project-structure">Project Structure</a></li>
+         <li><a href="#project-roadmap">Project Roadmap</a></li>
+         <li><a href="#representing-poker-hands-in-java">Representing Poker Hands in Java</a></li>
       </ul>
     </li>
   </ol>
@@ -216,3 +217,82 @@ Initially, I struggled with understanding the game of poker as I wasn't familiar
  - [x]  Phase 5: Testing and Optimization
    - Solution Testing: Continously tested all the elements thoroughly to ensure they worked as expected using JUnit5 tests.
    - Optimization: Continously refined and optimized the code for efficiency and readability.
+      
+## Representing Poker Hands in Java
+
+
+### The Card Class
+
+Here’s the description for the Card class:
+
+|Method | Description|
+|-----------|-----------------|
+|`Card(int rank,  int suit)`|	Constructor; creates a Card object from a string (e.g., “9S” or “AH”).|
+|`int getNumber()`|	Returns the rank of the card as an integer (e.g., 9 for Nine, 14 for Ace).|
+|`int getSuit()` | Returns the suit of the card (e.g., ‘S’ for Spades, ‘H’ for Hearts).|
+|`String toString()` | Returns a String representation of the card.|
+
+*Tab.4:* Card class description
+
+
+### The Hand Class
+
+This class represents a collection of cards in a poker game.
+|Method | Description|
+|-----------|-----------------|
+|`Hand(List<Card> hand)`|	Constructor that takes a List<Card> object as input and initializes the internal card list.|
+|`getCards()`|	Returns List<Card> object containing the cards in the hand.|
+|`toString()`|	Returns a String representation of the hand.|
+
+
+*Tab.5:* Hand class description
+
+### The CardUtils Class
+This class provides utility methods for parsing and interpreting card representations in a poker game.
+
+| Method Name                         |  Method Description                                                                                                                   |
+|-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `mapSuitToNumber(char symbol)`      |	Maps a suit symbol (H, C, S, D) to a corresponding integer value (0-3). Throws IllegalArgumentException for invalid symbols.|
+| `mapNumberToValue(char number)`      |	Maps a number symbol (2-9, T, J, Q, K, A) to its corresponding integer value (2-14). Throws IllegalArgumentException for invalid symbols.|
+| `parseCard(String cardString)`      |	Parses a card string representation (e.g., "3S") into a Card object. Validates the string format (length must be 2) and throws IllegalArgumentException for invalid strings.|
+
+*Tab.6:* CardUtils class description
+
+### The FileUtil Class
+This class offers method to obtain a BufferedReader object for reading resource files. The resources folder is located within the src/main/resources directory of your project structure. Files placed in this folder are accessible via this method:
+| Method Name                         |  Method Description                                                                                                                   |
+|-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `getFileResource(String filePath)`	|Retrieves a BufferedReader object for reading a file located in the resources folder. The filePath argument specifies the path to the file relative to the resources directory. Throws IllegalArgumentException if the file is not found.|
+
+*Tab.7:* FileUtil class description
+
+###  The HandUtil Class
+This class provides utility methods for parsing a hand string representation into a Hand object, evaluating hand properties like same suit, consecutive cards, highest card value, etc, determining the poker hand rank (Straight Flush, Four of a Kind, etc. and Identifying specific card combinations like triplets and pairs.
+
+| Method Name                         |  Method Description                                                                                                                   |
+|-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `parseHand(String handString)`      |	Parses a hand string representation (e.g., "3S 3D 3H 9C 10H") into a Hand object. Handles invalid input and returns null if parsing fails. |
+| `isSameSuit(Hand hand)`             |	Checks if all cards in the hand have the same suit (e.g., all Spades). |
+| `isConsecutive(Hand hand)`          |	Checks if the cards in the hand have consecutive ranks (e.g., 3, 4, 5, 6, 7). Wraps around for high cards (e.g., T, J, Q, K, A). |
+| `getHighCard(Hand hand)`                |	Returns the value (rank) of the highest card in the hand. |
+| `countValuesOccurrences(Hand hand)`     |	Calculates the frequency of each card rank in the hand. The resulting Map associates each card rank (key) with the number of times it appears in the hand (value). |
+| `getNumberOfPairs(Map<Integer, Integer> occurrenceValues)`     |	Counts the number of pairs (two cards with the same rank) in the hand based on the provided occurrenceValues Map. |
+| `getHandRank(Hand hand)	`     |Analyzes the hand composition and determines the poker hand rank value (0-8) using a series of checks for different hand types (Straight Flush, Four of a Kind, etc.). |
+| `getThreeOfAKindValue(Hand hand)	`     |Returns the value (rank) of the three cards of the same kind if a Three of a Kind exists in the hand, otherwise returns -1. |
+| `getPairValue(Hand hand)	`     |Gets the value (rank) of the pair in the hand, if present. Otherwise, returns -1. |
+| `getHighestNonPairCard(Hand hand)	`     |Determines the highest non-pair card value in a hand. |
+
+*Tab.8:* HandUtil class description
+
+### The HandService Class
+This class provides functionalities for evaluating and comparing poker hands offering a way to determine the winner between two poker hands. 
+
+| Method Name                         |  Method Description                                                                                                                   |
+|-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `compareHands(Hand hand1, Hand hand2, Comparator<Hand> comparison)`      |	Determines the winner based on a provided Comparator function. This allows for flexible comparison logic based on different hand properties.|
+| `compareCardValues(Hand hand1, Hand hand2, Function<Hand, Integer> cardValueFunction)`      |	Compares the hands based on a specified card value function. This function should extract the relevant card value for comparison (e.g., highest card, three of a kind value).|
+| `compareFullHouse(Hand hand1, Hand hand2)`      |	Compares two Full House hands specifically, considering both the triplet and pair values within each hand.|
+| `evaluateHands(Hand hand1, Hand hand2)	`      |The main entry point for hand evaluation. Analyzes hand ranks and uses appropriate comparison methods based on the rank (e.g., comparing pairs, full houses, or highest non-pair cards).|
+
+*Tab.9:* HandService class description
+
