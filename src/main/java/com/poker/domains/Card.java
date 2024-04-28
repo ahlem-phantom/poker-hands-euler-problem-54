@@ -1,8 +1,21 @@
-package com.poker.utils;
+package com.poker.domains;
 
-import com.poker.models.Card;
+public class Card {
+    private final int number;
+    private final int suit;
 
-public class CardUtils {
+    public Card(int number, int suit) {
+        this.number = number;
+        this.suit = suit;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public int getSuit() {
+        return suit;
+    }
 
     /**
      * Maps a suit symbol to a corresponding number.
@@ -68,10 +81,14 @@ public class CardUtils {
         char numberSymbol = cardString.charAt(0);
         char suitSymbol = cardString.charAt(1);
 
-        int number = CardUtils.mapNumberToValue(numberSymbol);
-        int suit = CardUtils.mapSuitToNumber(suitSymbol);
+        int number = mapNumberToValue(numberSymbol);
+        int suit = mapSuitToNumber(suitSymbol);
 
         return new Card(number, suit);
     }
 
+    @Override
+    public String toString() {
+        return "" + number + suit + "";
+    }
 }

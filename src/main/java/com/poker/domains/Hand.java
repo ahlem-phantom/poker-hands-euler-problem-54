@@ -1,19 +1,26 @@
-package com.poker.utils;
+package com.poker.domains;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.poker.models.Card;
-import com.poker.models.Hand;
+public class Hand {
 
-public class HandUtils {
+    private List<Card> card;
+
+    public Hand(List<Card> hand) {
+        this.card = hand;
+    }
+
+    public List<Card> getCards() {
+        return card;
+    }
 
     /**
      * Parses a hand from the given string representation.
@@ -28,7 +35,7 @@ public class HandUtils {
         }
 
         List<Card> hand = Arrays.stream(handString.split(" "))
-                .map(CardUtils::parseCard)
+                .map(Card::parseCard)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
@@ -189,6 +196,11 @@ public class HandUtils {
                 .filter(entry -> entry.getValue() == 3)
                 .map(Map.Entry::getKey)
                 .findFirst().orElse(-1);
+    }
+
+    @Override
+    public String toString() {
+        return "" + card + "";
     }
 
 }

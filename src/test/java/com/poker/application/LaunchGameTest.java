@@ -1,14 +1,13 @@
-package com.poker;
+package com.poker.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.BufferedReader;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
-import com.poker.models.Hand;
-import com.poker.services.HandService;
-import com.poker.utils.FileUtils;
-import com.poker.utils.HandUtils;
+import com.poker.common.FileUtils;
+import com.poker.domains.Hand;
+import com.poker.domains.HandRankEvaluator;
 
 
 public class LaunchGameTest {
@@ -26,10 +25,10 @@ public class LaunchGameTest {
             String hand1String = line.substring(0, 14);
             String hand2String = line.substring(15);
 
-            Hand hand1 = HandUtils.parseHand(hand1String);
-            Hand hand2 = HandUtils.parseHand(hand2String);
+            Hand hand1 = Hand.parseHand(hand1String);
+            Hand hand2 = Hand.parseHand(hand2String);
 
-            actualNb += HandService.evaluateHands(hand1, hand2);
+            actualNb += HandRankEvaluator.evaluateHands(hand1, hand2);
         }
 
         reader.close();

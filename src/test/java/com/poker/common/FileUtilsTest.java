@@ -1,4 +1,4 @@
-package com.poker.utils;
+package com.poker.common;
 
 import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;

@@ -1,10 +1,10 @@
-package com.poker.utils;
+package com.poker.common;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class FileUtils {
+public class FileResource {
 
     /**
      * Gets a BufferedReader for a file located in the resources folder.
@@ -14,7 +14,7 @@ public class FileUtils {
      * @throws IllegalArgumentException if the file is not found.
     */
     public static BufferedReader getFileResource(String filePath) {
-        InputStream fileStream = FileUtils.class.getClassLoader().getResourceAsStream(filePath);
+        InputStream fileStream = FileResource.class.getClassLoader().getResourceAsStream(filePath);
         if (fileStream == null) {
             throw new IllegalArgumentException("File not found: " + filePath);
         }

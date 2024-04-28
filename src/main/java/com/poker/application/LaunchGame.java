@@ -1,12 +1,11 @@
-package com.poker;
+package com.poker.application;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import com.poker.models.Hand;
-import com.poker.services.HandService;
-import com.poker.utils.FileUtils;
-import com.poker.utils.HandUtils;
+import com.poker.common.FileResource;
+import com.poker.domains.Hand;
+import com.poker.domains.HandRankEvaluator;
 
 
 /* 
@@ -28,7 +27,7 @@ public class LaunchGame {
     public static void main(String[] args) {
 
         // Step 1: Read file from resources folder using FileUtils
-        BufferedReader reader = FileUtils.getFileResource("0054_poker.txt");
+        BufferedReader reader = FileResource.getFileResource("0054_poker.txt");
 
         // Record start time
         long startTime = System.currentTimeMillis();
@@ -45,11 +44,11 @@ public class LaunchGame {
                 String hand2String = line.substring(15); // Remaining characters represent the second hand
 
                 // Parse cards
-                Hand hand1 = HandUtils.parseHand(hand1String);
-                Hand hand2 = HandUtils.parseHand(hand2String);
+                Hand hand1 = Hand.parseHand(hand1String);
+                Hand hand2 = Hand.parseHand(hand2String);
 
                 // Evaluate both hands and gets the winner 
-                nb += HandService.evaluateHands(hand1, hand2);
+                nb += HandRankEvaluator.evaluateHands(hand1, hand2);
             }
 
             // Record end time

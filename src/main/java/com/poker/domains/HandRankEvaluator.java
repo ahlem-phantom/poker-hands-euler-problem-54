@@ -1,19 +1,17 @@
-package com.poker.services;
+package com.poker.domains;
 
 import java.util.Comparator;
 import java.util.function.Function;
-import com.poker.models.Hand;
-import com.poker.utils.HandUtils;
 
-public class HandService {
 
-    /**
-     * Determines the winner between two hands based on a specified comparison
-     * function.
+public class HandRankEvaluator {
+    
+       /**
+     * Determines the winner between two hands based on a specified comparison function.
      *
-     * @param hand1      The hand of player 1.
-     * @param hand2      The hand of player 2.
-     * @param comparison The comparison function to determine the winner.
+     * @param hand1         The hand of player 1.
+     * @param hand2         The hand of player 2.
+     * @param comparison    The comparison function to determine the winner.
      * @return 1 if player 1 wins, 0 otherwise.
      * 
      */
@@ -27,9 +25,9 @@ public class HandService {
      * 
      * Works for most of hand ranks (not all of them though)
      * 
-     * @param hand1     The hand of player 1.
-     * @param hand2     The hand of player 2.
-     * @param cardValue The function to determine the card value.
+     * @param hand1             The hand of player 1.
+     * @param hand2             The hand of player 2.
+     * @param cardValueFunction The function to determine the card value.
      * @return 1 if player 1 wins, 0 otherwise.
      */
     public static int compareCardValues(Hand hand1, Hand hand2, Function<Hand, Integer> cardValue) {
@@ -40,7 +38,7 @@ public class HandService {
             return 1;
         } else if (cardValue1 == cardValue2) {
             // Compare based on the highest non-pair card if card values are equal
-            Comparator<Hand> comparator = Comparator.comparingInt(HandUtils::getHighestNonPairCard);
+            Comparator<Hand> comparator = Comparator.comparingInt(Hand::getHighestNonPairCard);
             return compareHands(hand1, hand2, comparator);
         }
         return 0;
@@ -56,8 +54,8 @@ public class HandService {
      * 
      */
     public static int compareFullHouse(Hand hand1, Hand hand2) {
-        Comparator<Hand> comparator = Comparator.comparingInt(HandUtils::getThreeOfAKindValue)
-                .thenComparingInt(HandUtils::getPairValue);
+        Comparator<Hand> comparator = Comparator.comparingInt(Hand::getThreeOfAKindValue)
+                .thenComparingInt(Hand::getPairValue);
         return compareHands(hand1, hand2, comparator);
     }
 
@@ -68,9 +66,9 @@ public class HandService {
      * @param hand2 The hand of player 2.
      * @return 1 if player 1 wins, 0 otherwise.
      */
-    public static int evaluateHands(Hand hand1, Hand hand2) {
-        int rank1 = HandUtils.getHandRank(hand1);
-        int rank2 = HandUtils.getHandRank(hand2);
+   /* */ public static int evaluateHands(Hand hand1, Hand hand2) {
+        int rank1 = Hand.getHandRank(hand1);
+        int rank2 = Hand.getHandRank(hand2);
 
         if (rank1 > rank2) {
             return 1; // Player 1 wins with a higher rank
@@ -78,12 +76,12 @@ public class HandService {
             // If both players have the same rank
             switch (rank1) {
                 case 1: // One pair
-                    return compareCardValues(hand1, hand2, HandUtils::getPairValue);
+                    return compareCardValues(hand1, hand2, Hand::getPairValue);
                 case 6: // Full house
-
+                    
                     return compareFullHouse(hand1, hand2);
                 default: // Other ranks
-                    Comparator<Hand> comparator = Comparator.comparingInt(HandUtils::getHighestNonPairCard);
+                    Comparator<Hand> comparator = Comparator.comparingInt(Hand::getHighestNonPairCard);
                     return compareHands(hand1, hand2, comparator);
             }
         }
