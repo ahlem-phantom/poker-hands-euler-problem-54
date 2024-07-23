@@ -154,41 +154,35 @@ Initially, I struggled with understanding the game of poker as I wasn't familiar
     |   |   └── java/
     |   |       └── com/
     |   |           ├── poker/
-    |   |           |   ├── models/
-    |   |           |   |   ├── Card.java                    # Class representing a playing card
-    |   |           |   |   └── Hand.java                    # Class representing a hand of cards
-    |   |           |   |   
-    |   |           |   ├── utils/                           # Package for utility classes
-    |   |           |   |   ├── FileUtils.java               # Utility class for file operations
-    |   |           |   |   ├── CardUtils.java               # Utility class for card-specific operations
-    |   |           |   |   └── HandUtils.java               # Utility class for hand-specific operations
-    |   |           |   |   
-    |   |           |   |   
-    |   |           |   ├── services/                        # Package for utility classes
-    |   |           |   |   └── HandService.java             # Utility class for hand comparison and evaluation
-    |   |           |   |   
-    |   |           |   └── LaunchGame.java                  # Main class for running the application
+    |   |           |   ├── application/                      # Package for utility classes  
+    |   |           |   |   └── LaunchGame.java               # Main class for running the application
+    |   |           |   | 
+    |   |           |   ├── common/                           # Package for common classes
+    |   |           |   |   └── FileResource.java             # Class for file operation
+    |   |           |   |  
+    |   |           |   └── domains/
+    |   |           |       ├── Card.java                     # Class representing a playing card
+    |   |           |       ├── Hand.java                     # Class representing a hand of cards
+    |   |           |       └── HandRankEvaluator.java        # Class for hand comparison and evaluation  
     |   |           |   
     |   |           └── resources/
-    |   |                  └── 0054_poker.txt                # File that contains one thousand random hands dealt to two players
-    |   |    
-    |   └── test                                             # Test source code containing automated tests (JUnit5)
+    |   |                  └── 0054_poker.txt                 # File that contains one thousand random hands dealt to two players
+    |   | 
+    |   |   
+    |   └── test                                              # Test source code containing automated tests (JUnit5)
     |       └── java/
     |           └── com/
     |                └── poker/
-    |                   ├── models/
-    |                   |  ├── CardTest.java
-    |                   |  └── HandTest.java
+    |                   ├── application/                      
+    |                   |   └── LaunchGameTest.java                   
+    |                   | 
+    |                   ├── common/                           
+    |                   |   └── FileResourceTest.java            
     |                   |  
-    |                   ├── utils/     
-    |                   |  ├── FileUtilsTest.java
-    |                   |  ├── CardUtilsTest.java
-    |                   |  └── HandUtilsTest.java
-    |                   |   
-    |                   ├── services/                              
-    |                   |   └── HandServiceTest.java               
-    |                   |   
-    |                   └── LaunchGameTest.java
+    |                   └── domains/
+    |                       ├── CardTest.java                     
+    |                       ├── HandTest.java                     
+    |                       └── HandRankEvaluatorTest.java       
     └── pom.xml
     └── README.md
 
